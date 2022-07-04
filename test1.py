@@ -26,11 +26,11 @@ while True:#一直循环
             print(all_list)
             #下载all_list[-1]图片到本地pics文件夹
             print('/Desktop/pics/'+ str(all_list[-1]))
-            client.get_object(Bucket='avh-1312691646',Key=str(all_list[-1]),LocalFilePath= '/Desktop/pics/'+ str(all_list[-1]))                                                                                             
+            client.get_object(Bucket='avh-1312691646',Key=str(all_list[-1]),LocalFilePath= 'home/pi/Desktop/pics/'+ str(all_list[-1]))                                                                                             
                                                                                                                       
         #文件夹里删除图片
         time.sleep(10)                                                                                                            
-        os.remove('/Desktop/pics/'+ str(all_list[-1]))    
+        os.remove('home/pi/Desktop/pics/'+ str(all_list[-1]))    
         
         #识别，显示结果
         
