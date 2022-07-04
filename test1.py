@@ -1,3 +1,5 @@
+# 自动download腾讯cos里图片到本地pics文件夹，识别过后删除本地文件及云端文件
+
 # -*- Coding=utf-8
 #pip install -U cos-python-sdk-v5
 from qcloud_cos import CosConfig
