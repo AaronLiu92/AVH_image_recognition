@@ -23,7 +23,8 @@ for i in allcontent['Contents']:
     #下载all_list[-1]图片到本地pics文件夹
     print('/Desktop/pics/'+ str(all_list[-1]))
     # LocalFilePath= 'home/pi/Desktop/pics/'+ str(all_list[-1])
-    client.get_object(Bucket='avh-1312691646',Key=str(all_list[-1]),LocalFilePath= str(all_list[-1]))                                                                                             
+    download_pic = client.get_object(Bucket='avh-1312691646',Key=str(all_list[-1]))
+    download_pic['Body'].get_stream_to_file('home/pi/Desktop/pics/'+ str(all_list[-1])
                                                                                                                       
     #文件夹里删除图片
     #time.sleep(10)                                                                                                            
