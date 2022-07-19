@@ -1,15 +1,17 @@
 #coding:utf-8
 import cv2
 
-camSet = 'v4l2src device=/dev/video0 ! video/x-raw,width=640,height=480,framerate=25/1 ! videoconvert ! appsink'
-cap = cv2.VideoCapture(camSet)
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
+cap.set(cv2.CAP_PROP_FPS,25)
 flag = cap.isOpened()
 
 index = 1
 while(flag):
     ret, frame = cap.read()
     cv2.imshow("myCam",frame)
-    cv2.moveWindow('myCam', 0, 0)
+    #cv2.moveWindow('myCam', 0, 0)
     k = cv2.waitKey(1) & 0xFF
     if k == ord('s'):     #按下s键，进入下面的保存图片操作
         cv2.imwrite(str(index) + ".jpg", frame)
