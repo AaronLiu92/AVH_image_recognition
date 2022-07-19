@@ -6,7 +6,7 @@ flag = cap.isOpened()
 index = 1
 while(flag):
     ret, frame = cap.read()
-    cv2.imshow("/Desktop/Capture_Paizhao",frame)
+    cv2.imshow("./frame",frame)
     k = cv2.waitKey(1) & 0xFF
     if k == ord('s'):     #按下s键，进入下面的保存图片操作
         cv2.imwrite(str(index) + ".jpg", frame)
