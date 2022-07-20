@@ -1,32 +1,69 @@
-import io
-import socket
-import struct
-import time
-import picamera
-# create socket and bind host
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(("10.169.109.149", 5000))
-connection = client_socket.makefile('wb')
- 
-try:
-    with picamera.PiCamera() as camera:
-        camera.resolution = (320, 240)      # pi camera resolution
-        camera.framerate = 15               # 15 frames/sec
-        time.sleep(2)                       # give 2 secs for camera to initilize
-        start = time.time()
-        stream = io.BytesIO()
-        
-        # send jpeg format video stream
-        for foo in camera.capture_continuous(stream, 'jpeg', use_video_port = True):
-            connection.write(struct.pack('<L', stream.tell()))
-            connection.flush()
-            stream.seek(0)
-            connection.write(stream.read())
-            if time.time() - start > 600:
-                break
-            stream.seek(0)
-            stream.truncate()
-    connection.write(struct.pack('<L', 0))
-finally:
-    connection.close()
-    client_socket.close()
+# -*- coding:utf-8
+import numpy as np
+import multiprocessing
+from multiprocessing import Process ,Queue
+import random
+import cv2
+
+def run1(que,cap):
+
+  while 1:
+    ret,img = cap.read()
+    for i in  range(200):
+      for j in range(200):
+        for k in  range(3):
+          img[j,i,k] = random.randint(0,255)
+    
+
+    lenth = que.qsize()
+    print ("que lenth: ",lenth)
+
+    if lenth >2:
+      for i in range(lenth-2):
+        frame = que.get()   #清除缓存
+    que.put(img)
+    #pipe.send(img_q)
+    cv2.imshow("show",img)
+
+    cv2.waitKey(1000/23)
+  cv2.destroyAllWindows()
+  cap.release()
+
+
+def test_1(que,cap):
+  run1(que)
+
+
+
+def test_2(que):
+  while 1:
+    img = que.get()
+    #img = pipe.recv()
+    #img = cv2.resize(img,(360,240))
+    cv2.imshow("show2",img)
+    key = cv2.waitKey(1000/23)
+    if key == 27:
+      break
+  cv2.destroyAllWindows()
+
+
+def cmd_send():
+  pass
+if __name__ == "__main__":
+    manager = multiprocessing.Manager()
+    que = manager.Queue()
+    # que = Queue()
+    test1_start = 1
+    test2_start = 1
+
+    cap= cv2.VideoCapture(0)
+
+    t1 = Process(target=run1,args=(que,cap,))
+    # t2 = Process(target=test_2,args=(que,))
+
+    t1.start()
+    # t2.start()
+
+    test_2(que)
+    # 
+    t1.terminate()
