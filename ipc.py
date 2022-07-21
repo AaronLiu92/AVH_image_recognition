@@ -1,69 +1,22 @@
-# -*- coding:utf-8
-import numpy as np
-import multiprocessing
-from multiprocessing import Process ,Queue
-import random
 import cv2
-
-def run1(que,cap):
-
-  while 1:
-    ret,img = cap.read()
-    for i in  range(200):
-      for j in range(200):
-        for k in  range(3):
-          img[j,i,k] = random.randint(0,255)
-    
-
-    lenth = que.qsize()
-    print ("que lenth: ",lenth)
-
-    if lenth >2:
-      for i in range(lenth-2):
-        frame = que.get()   #清除缓存
-    que.put(img)
-    #pipe.send(img_q)
-    cv2.imshow("show",img)
-
-    cv2.waitKey(1000/23)
-  cv2.destroyAllWindows()
-  cap.release()
-
-
-def test_1(que,cap):
-  run1(que)
-
-
-
-def test_2(que):
-  while 1:
-    img = que.get()
-    #img = pipe.recv()
-    #img = cv2.resize(img,(360,240))
-    cv2.imshow("show2",img)
-    key = cv2.waitKey(1000/23)
-    if key == 27:
-      break
-  cv2.destroyAllWindows()
-
-
-def cmd_send():
-  pass
-if __name__ == "__main__":
-    manager = multiprocessing.Manager()
-    que = manager.Queue()
-    # que = Queue()
-    test1_start = 1
-    test2_start = 1
-
-    cap= cv2.VideoCapture(0)
-
-    t1 = Process(target=run1,args=(que,cap,))
-    # t2 = Process(target=test_2,args=(que,))
-
-    t1.start()
-    # t2.start()
-
-    test_2(que)
-    # 
-    t1.terminate()
+cap=cv2.VideoCapture(0) #调用摄像头‘0'一般是打开电脑自带摄像头，‘1'是打开外部摄像头（只有一个摄像头的情况）
+width=1280
+height=960
+cap.set(cv2.CAP_PROP_FRAME_WIDTH,width)#设置图像宽度
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT,height)#设置图像高度
+#显示图像
+while True: 
+  ret,frame=cap.read()#读取图像(frame就是读取的视频帧，对frame处理就是对整个视频的处理)
+  #print(ret)#
+  #######例如将图像灰度化处理，
+  img=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)#转灰度图
+  cv2.imshow("img",img)
+  ########图像不处理的情况
+  cv2.imshow("frame",frame)  
+ 
+  input=cv2.waitKey(20)
+  if input==ord('q'):#如过输入的是q就break，结束图像显示，鼠标点击视频画面输入字符
+    break
+  
+cap.release()#释放摄像头
+cv2.destroyAllWindows()#销毁窗口
