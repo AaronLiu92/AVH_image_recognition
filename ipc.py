@@ -1,7 +1,7 @@
 import cv2
 cap=cv2.VideoCapture(0) #调用摄像头‘0'一般是打开电脑自带摄像头，‘1'是打开外部摄像头（只有一个摄像头的情况）
-width=1280
-height=960
+width=640
+height=480
 cap.set(cv2.CAP_PROP_FRAME_WIDTH,width)#设置图像宽度
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT,height)#设置图像高度
 #显示图像
