@@ -1,3 +1,4 @@
+#coding:utf-8
 import cv2
 cap=cv2.VideoCapture(0) #调用摄像头‘0'一般是打开电脑自带摄像头，‘1'是打开外部摄像头（只有一个摄像头的情况）
 width=640
