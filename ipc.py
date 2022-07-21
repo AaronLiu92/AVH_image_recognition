@@ -10,8 +10,8 @@ while True:
   ret,frame=cap.read()#读取图像(frame就是读取的视频帧，对frame处理就是对整个视频的处理)
   #print(ret)#
   #######例如将图像灰度化处理，
-  img=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)#转灰度图
-  cv2.imshow("img",img)
+  #img=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)#转灰度图
+  #cv2.imshow("img",img)
   ########图像不处理的情况
   cv2.imshow("frame",frame)  
  
